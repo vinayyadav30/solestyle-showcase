@@ -14,7 +14,114 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      ambassadors: {
+        Row: {
+          brand: string
+          created_at: string
+          id: string
+          name: string
+          quote: string
+          stats: string
+          title: string
+        }
+        Insert: {
+          brand: string
+          created_at?: string
+          id?: string
+          name: string
+          quote?: string
+          stats?: string
+          title: string
+        }
+        Update: {
+          brand?: string
+          created_at?: string
+          id?: string
+          name?: string
+          quote?: string
+          stats?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      brands: {
+        Row: {
+          id: string
+          logo: string
+          name: string
+          slug: string
+        }
+        Insert: {
+          id?: string
+          logo?: string
+          name: string
+          slug: string
+        }
+        Update: {
+          id?: string
+          logo?: string
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          ambassador: string | null
+          brand: string
+          category: string
+          created_at: string
+          description: string
+          featured: boolean | null
+          id: string
+          image_url: string
+          in_stock: boolean
+          is_new: boolean | null
+          name: string
+          original_price: number | null
+          price: number
+          sizes: number[]
+          stock_count: number
+          updated_at: string
+        }
+        Insert: {
+          ambassador?: string | null
+          brand: string
+          category: string
+          created_at?: string
+          description?: string
+          featured?: boolean | null
+          id?: string
+          image_url?: string
+          in_stock?: boolean
+          is_new?: boolean | null
+          name: string
+          original_price?: number | null
+          price: number
+          sizes?: number[]
+          stock_count?: number
+          updated_at?: string
+        }
+        Update: {
+          ambassador?: string | null
+          brand?: string
+          category?: string
+          created_at?: string
+          description?: string
+          featured?: boolean | null
+          id?: string
+          image_url?: string
+          in_stock?: boolean
+          is_new?: boolean | null
+          name?: string
+          original_price?: number | null
+          price?: number
+          sizes?: number[]
+          stock_count?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
