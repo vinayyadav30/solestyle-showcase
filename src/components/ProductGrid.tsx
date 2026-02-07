@@ -1,14 +1,17 @@
 import { useState } from "react";
-import { products, brands } from "@/data/products";
+import { useProducts, useBrands } from "@/hooks/useProducts";
 import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
-import { Filter, ChevronDown, Grid3X3, LayoutGrid } from "lucide-react";
+import { Filter, ChevronDown, Grid3X3, LayoutGrid, Loader2 } from "lucide-react";
 
 const ProductGrid = () => {
   const [selectedBrand, setSelectedBrand] = useState<string>("all");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [showFilters, setShowFilters] = useState(false);
   const [gridSize, setGridSize] = useState<"compact" | "large">("large");
+
+  const { data: products = [], isLoading: productsLoading } = useProducts();
+  const { data: brands = [] } = useBrands();
 
   const categories = ["all", "Basketball", "Running", "Lifestyle"];
 
@@ -36,7 +39,6 @@ const ProductGrid = () => {
 
         {/* Filters Bar */}
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-6 border-b border-border">
-          {/* Left: Filter Toggle & Categories */}
           <div className="flex items-center gap-4">
             <Button
               variant="outline"
@@ -65,7 +67,6 @@ const ProductGrid = () => {
             </div>
           </div>
 
-          {/* Right: Results Count & Grid Toggle */}
           <div className="flex items-center gap-4">
             <span className="font-body text-sm text-muted-foreground">
               {filteredProducts.length} Products
@@ -116,7 +117,6 @@ const ProductGrid = () => {
               ))}
             </div>
 
-            {/* Mobile Categories */}
             <div className="md:hidden mt-4 pt-4 border-t border-border">
               <p className="font-body text-sm text-muted-foreground mb-3">Categories</p>
               <div className="flex flex-wrap gap-2">
@@ -139,23 +139,29 @@ const ProductGrid = () => {
         )}
 
         {/* Product Grid */}
-        <div
-          className={`grid gap-6 ${
-            gridSize === "large"
-              ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-              : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
-          }`}
-        >
-          {filteredProducts.map((product, index) => (
-            <div
-              key={product.id}
-              className="animate-fade-up"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <ProductCard product={product} />
-            </div>
-          ))}
-        </div>
+        {productsLoading ? (
+          <div className="flex justify-center items-center py-20">
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          </div>
+        ) : (
+          <div
+            className={`grid gap-6 ${
+              gridSize === "large"
+                ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+            }`}
+          >
+            {filteredProducts.map((product, index) => (
+              <div
+                key={product.id}
+                className="animate-fade-up"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Load More */}
         <div className="text-center mt-12">
