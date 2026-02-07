@@ -1,6 +1,8 @@
-import { brands } from "@/data/products";
+import { useBrands } from "@/hooks/useProducts";
 
 const BrandShowcase = () => {
+  const { data: brands = [] } = useBrands();
+
   return (
     <section className="py-16 bg-secondary/30 border-y border-border overflow-hidden">
       <div className="container mx-auto px-4 mb-8">
@@ -9,7 +11,6 @@ const BrandShowcase = () => {
         </h2>
       </div>
       
-      {/* Infinite scroll animation */}
       <div className="relative">
         <div className="flex animate-[shimmer_30s_linear_infinite] gap-16 items-center">
           {[...brands, ...brands, ...brands].map((brand, index) => (
